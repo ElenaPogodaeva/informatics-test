@@ -9,7 +9,8 @@ body {
   min-height: 100vh;
   font-family: Arial, Helvetica, sans-serif;
   text-align: center;
-  font-size: 16px;
+  font-size: 18px;
+  line-height: 24px;
   color: #fff;
   text-align: center;
   background: rgba(0, 0, 0, 0.5);
@@ -18,4 +19,47 @@ body {
   background-blend-mode: multiply;
   transition: background-image 1s ease-in-out;
   background-image: url(../assets/sunset.jpg)
+}
+
+.weather {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  row-gap: 5px;
+  width: 300px;
+  min-height: 220px;  
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.city {
+  width: 100%;
+  padding: 10px;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+  color: #fff;
+  outline: 0;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  background-color: transparent;
+}
+
+.city::placeholder {  
+  font-size: 20px;
+  color: #fff;
+  opacity: .6;
+}
+
+.weather-error {
+  margin-bottom: -10px;
+}
+
+.weather-icon {
+  font-size: 90px;
+}
+
+.temperature {
+  font-size: 25px;
 }
