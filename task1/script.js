@@ -7,7 +7,7 @@ const connection = mysql.createConnection({
   password: ""
 });
 
-connection.query("CREATE DATABASE usersdb",
+connection.query("CREATE DATABASE IF NOT EXISTS usersdb",
   function(err) {
     if (err) console.log(err);
     else console.log("База данных создана");
@@ -15,7 +15,7 @@ connection.query("CREATE DATABASE usersdb",
 
 const createCars = `CREATE TABLE IF NOT EXISTS cars (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255) not null,
+  brand VARCHAR(255) not null,
   model VARCHAR(255) not null,
   country VARCHAR(255) not null
 )`;
@@ -28,8 +28,8 @@ const createUsers = `CREATE TABLE if not exists users (
 
 const createRegistration = `CREATE TABLE if not exists registration (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  carId INT NOT NULL,
   userId INT NOT NULL,
+  carId INT NOT NULL,
   dateReg DATE NOT NULL
 )`;
 
@@ -56,7 +56,7 @@ const cars = [
   ['Volkswagen', 'Fox', 'Germany'],
 ];
 
-const insertCars = `INSERT INTO cars(name, model, country) VALUES ?`;
+const insertCars = `INSERT INTO cars(brand, model, country) VALUES ?`;
 
 connection.query(insertCars, [cars], function(err, results) {
   if (err) console.log(err);
@@ -79,31 +79,48 @@ connection.query(insertUsers, [users], function(err, results) {
 });
 
 const registration = [
-  ['1', '2', '05.04.2018'],
-  ['2', '1', '05.04.2020'],
-  ['3', '5', '05.04.2021'],
-  ['4', '3', '05.04.2022'],
-  ['5', '4', '05.04.2023'],
+  ['1', '2', '2018-04-05'],
+  ['2', '1', '2020-04-05'],
+  ['3', '5', '2021-04-05'],
+  ['4', '3', '2022-04-05'],
+  ['5', '4', '2023-04-05'],
 ];
 
-const insertReg = `INSERT INTO registration(carId, userId, dateReg) VALUES ?`;
+const insertReg = `INSERT INTO registration(userId, carId, dateReg) VALUES ?`;
 
 connection.query(insertReg, [registration], function(err, results) {
   if (err) console.log(err);
   else console.log(results);
 });
 
-const sql = `SELECT users.name, cars.name, cars.model, registration.dateReg 
+const sql = `SELECT users.name, cars.brand, cars.model, registration.dateReg
   FROM users
   JOIN registration ON (users.id = registration.userId)
   JOIN cars ON (cars.id = registration.carId)
-  WHERE registration.dateReg < '01.01.2022'
-)`;
+  WHERE registration.dateReg < '2022-01-01'`;
 
 connection.query(sql, function(err, results) {
   if (err) console.log(err);
   else console.log(results);
 });
+
+// const deleteCars = "DROP TABLE cars";
+
+// connection.query(deleteCars, function(err, results) {
+//   if (err) console.log(err);
+// });
+
+// const deleteUsers = "DROP TABLE users";
+
+// connection.query(deleteUsers, function(err, results) {
+//   if (err) console.log(err);
+// });
+
+// const deleteReg = "DROP TABLE registration";
+
+// connection.query(deleteReg, function(err, results) {
+//   if (err) console.log(err);
+// });
 
 connection.end(function(err) {
   if (err) {
